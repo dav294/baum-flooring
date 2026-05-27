@@ -25,9 +25,15 @@
   --font-body:   'Plus Jakarta Sans', sans-serif;
 }
 
-html, body, section, nav, footer, header, main {
+/* ── Scroll safety: clip instead of hidden so no scroll context is created ── */
+html, body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;   /* clip doesn't create a scroll context — scroll stays smooth */
+}
+
+section, nav, footer, header, main {
+  max-width: 100vw;
+  overflow-x: clip;
 }
 
 html { scroll-behavior: auto; background: var(--bg); }
@@ -246,7 +252,7 @@ ul { list-style: none; }
   min-height: 100vh;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: clip;   /* clip: no scroll context, parallax still works */
 }
 
 /*
@@ -261,10 +267,9 @@ ul { list-style: none; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(145deg, #0a2014 0%, #1f5d35 45%, #163d26 80%, #0d2e1a 100%);
-  /* background-image: url('../assets/images/hero-bg.jpg');
-     background-size: cover;
-     background-position: center; */
+  background-image: url('../assets/images/baum-hero.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
 .hero-overlay {
@@ -480,9 +485,44 @@ ul { list-style: none; }
   padding: 0 48px;
 }
 
-.waterproof-header {
-  max-width: 720px;
-  margin-bottom: 80px;
+/* 2-column split: content left, image right */
+.waterproof-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 88px;
+}
+
+.waterproof-content { /* left column */ }
+
+.waterproof-image-wrap {
+  height: 540px;
+  border-radius: 4px;
+  overflow: clip;
+}
+
+.waterproof-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Kitchen install image — placed full-width below the stats */
+.waterproof-kitchen-wrap {
+  width: 100%;
+  height: 480px;
+  border-radius: 4px;
+  overflow: clip;
+  margin-bottom: 88px;
+}
+
+.waterproof-kitchen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .waterproof-heading { margin-bottom: 28px; }
@@ -496,15 +536,14 @@ ul { list-style: none; }
   transform: translateY(18px);
 }
 
-/* Stats row */
+/* Stats — inside the left column of the split */
 .waterproof-stats {
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 88px;
-  padding: 56px 0;
+  margin-top: 48px;
+  padding: 40px 0;
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
 }
 
 .waterproof-stat {
@@ -518,10 +557,10 @@ ul { list-style: none; }
 
 .waterproof-stat-divider {
   width: 1px;
-  height: 64px;
+  height: 48px;
   background: var(--border);
   flex-shrink: 0;
-  margin: 0 56px;
+  margin: 0 32px;
 }
 
 .stat-num {
@@ -648,15 +687,15 @@ ul { list-style: none; }
   Replace gradient backgrounds below with your image URLs.
 */
 .collection-img--longplank .collection-img-inner {
-  background: linear-gradient(165deg, #c9b49a 0%, #9e7a55 40%, #735030 80%, #52361e 100%);
-  /* background-image: url('../assets/images/collection-longplank.jpg');
-     background-size: cover; background-position: center; */
+  background-image: url('../assets/images/baum-long-plank.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .collection-img--herringbone .collection-img-inner {
-  background: linear-gradient(155deg, #b89870 0%, #8c6b45 40%, #6b4e2c 75%, #4a341a 100%);
-  /* background-image: url('../assets/images/collection-herringbone.jpg');
-     background-size: cover; background-position: center; */
+  background-image: url('../assets/images/baum-herringbone.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* Waterproof badge on collection images */
@@ -862,9 +901,9 @@ ul { list-style: none; }
 */
 .trade-image {
   height: 100%;
-  background: linear-gradient(155deg, #ddd5c8 0%, #b8a898 50%, #9a8878 100%);
-  /* background-image: url('../assets/images/trade-showroom.jpg');
-     background-size: cover; background-position: center; */
+  background-image: url('../assets/images/baum-trade.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* =============================================================
@@ -1102,8 +1141,9 @@ ul { list-style: none; }
     padding-right: 32px;
   }
 
-  .trade-inner   { gap: 64px; }
-  .why-grid      { gap: 40px; }
+  .waterproof-split  { gap: 56px; }
+  .trade-inner       { gap: 64px; }
+  .why-grid          { gap: 40px; }
 }
 
 /* =============================================================
@@ -1118,13 +1158,24 @@ ul { list-style: none; }
   .trust-item     { flex: 0 0 50%; padding: 14px 24px; justify-content: flex-start; }
   .trust-divider  { display: none; }
 
+  /* Waterproof split: stack on mobile */
+  .waterproof-split {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+  .waterproof-image-wrap { height: 400px; }
+  .waterproof-kitchen-wrap { height: 320px; margin-bottom: 56px; }
+
   .waterproof-stats {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 40px;
-    padding: 40px 0;
+    flex-direction: row;      /* keep horizontal on mid-mobile */
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 32px 0;
+    margin-top: 32px;
   }
   .waterproof-stat-divider { display: none; }
+  .waterproof-stat { flex: 1; min-width: 80px; }
 
   .waterproof-features {
     grid-template-columns: 1fr;
@@ -1140,11 +1191,11 @@ ul { list-style: none; }
     padding-top: 40px;
   }
 
-  .trade-inner         { grid-template-columns: 1fr; gap: 56px; }
-  .trade-image-wrap    { height: 400px; opacity: 1; transform: none; }
+  .trade-inner      { grid-template-columns: 1fr; gap: 56px; }
+  .trade-image-wrap { height: 400px; opacity: 1; transform: none; }
 
-  .footer-top  { grid-template-columns: 1fr; gap: 48px; }
-  .footer-nav  { justify-content: flex-start; gap: 48px; flex-wrap: wrap; }
+  .footer-top    { grid-template-columns: 1fr; gap: 48px; }
+  .footer-nav    { justify-content: flex-start; gap: 48px; flex-wrap: wrap; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 
@@ -1173,7 +1224,11 @@ ul { list-style: none; }
     padding-right: 20px;
   }
 
-  .waterproof-header { margin-bottom: 48px; }
+  .waterproof-image-wrap  { height: 300px; }
+  .waterproof-kitchen-wrap { height: 240px; margin-bottom: 48px; }
+
+  .waterproof-stats { flex-direction: column; gap: 20px; padding: 28px 0; }
+  .waterproof-stat  { flex: unset; }
 
   .stat-num { font-size: clamp(2.4rem, 10vw, 3.5rem); }
 

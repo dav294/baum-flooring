@@ -251,19 +251,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function openPopup(mode) {
     popupMode = mode;
     const content = popupContent[mode];
-    popupLabel.textContent = content.label;
-    popupTitle.textContent = content.title;
-    popupSub.textContent   = content.sub;
+    popupLabel.textContent  = content.label;
+    popupTitle.textContent  = content.title;
+    popupSub.textContent    = content.sub;
     popupSubmit.textContent = 'Send Enquiry →';
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lenis.stop();   // pause smooth scroll while popup is open
   }
 
   function closePopup() {
     overlay.classList.remove('is-open');
     overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    lenis.start();  // resume smooth scroll when popup closes
   }
 
   // Open triggers
