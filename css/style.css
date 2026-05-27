@@ -539,7 +539,7 @@ ul { list-style: none; }
 /* Stats — inside the left column of the split */
 .waterproof-stats {
   display: flex;
-  align-items: center;
+  align-items: stretch;   /* all stat divs grow to equal height */
   gap: 0;
   margin-top: 48px;
   padding: 40px 0;
@@ -550,6 +550,8 @@ ul { list-style: none; }
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;  /* pin content to the top of each equal-height block */
+  align-items: flex-start;
   gap: 8px;
   opacity: 0;
   transform: translateY(16px);
@@ -561,6 +563,7 @@ ul { list-style: none; }
   background: var(--border);
   flex-shrink: 0;
   margin: 0 32px;
+  align-self: center;   /* keep divider centered in the stretched row */
 }
 
 .stat-num {
@@ -570,11 +573,12 @@ ul { list-style: none; }
   color: var(--primary);
   line-height: 1;
   letter-spacing: -0.03em;
+  white-space: nowrap;   /* prevent "20 yr" from ever wrapping */
 }
 
 .stat-num--label {
-  /* For AC5 which is a label not a number */
-  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  /* AC5 — same size as the numeric stats so all three are equal height */
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
 }
 
 .stat-label {
@@ -1227,8 +1231,18 @@ ul { list-style: none; }
   .waterproof-image-wrap  { height: 300px; }
   .waterproof-kitchen-wrap { height: 240px; margin-bottom: 48px; }
 
-  .waterproof-stats { flex-direction: column; gap: 20px; padding: 28px 0; }
-  .waterproof-stat  { flex: unset; }
+  .waterproof-stats {
+    flex-direction: column;
+    align-items: center;   /* center each stat row when stacked */
+    gap: 20px;
+    padding: 28px 0;
+  }
+  .waterproof-stat {
+    flex: unset;
+    align-items: center;   /* center the stat-num and stat-label */
+    text-align: center;
+    width: 100%;
+  }
 
   .stat-num { font-size: clamp(2.4rem, 10vw, 3.5rem); }
 
