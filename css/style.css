@@ -106,7 +106,7 @@ ul { list-style: none; }
 
 /* When using an actual logo image instead of wordmark: */
 .nav-logo-img {
-  height: 40px;
+  height: 56px;
   width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);  /* White version for dark hero */
@@ -945,7 +945,7 @@ ul { list-style: none; }
 
 /* Actual logo image (once uploaded): */
 .footer-logo-img {
-  height: 36px;
+  height: 52px;
   width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
