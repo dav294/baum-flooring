@@ -534,7 +534,7 @@ ul { list-style: none; }
 }
 
 .stat-num--label {
-  /* For AC4 which is a label not a number */
+  /* For AC5 which is a label not a number */
   font-size: clamp(2.2rem, 4vw, 3.8rem);
 }
 
